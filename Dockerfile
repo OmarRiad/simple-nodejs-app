@@ -1,9 +1,12 @@
 FROM node
 WORKDIR /app
 
+COPY package*.json ./
+RUN npm install --production
+
 COPY . .
 EXPOSE 3000
 
-COPY package*.json ./
 
-ENTRYPOINT start npm
+
+CMD ["npm", "start"]
