@@ -45,4 +45,21 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            slackSend(
+                channel: '#jenkins-builds',
+                color: 'good',
+                message: "✅ Build *${env.BUILD_NUMBER}* of branch *${env.BRANCH_NAME}* succeeded! 🚀"
+            )
+        }
+        failure {
+            slackSend(
+                channel: '#jenkins-builds',
+                color: 'danger',
+                message: "❌ Build *${env.BUILD_NUMBER}* of branch *${env.BRANCH_NAME}* failed! 🔥"
+            )
+        }
+    }
 }
