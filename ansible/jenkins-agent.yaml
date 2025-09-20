@@ -1,0 +1,39 @@
+---
+- name: Configure Jenkins Agent EC2
+  hosts: jenkins_agent
+  become: yes
+
+  vars:
+    jenkins_user: jenkins
+
+  tasks:
+    - name: Update packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install required packages
+      yum:
+        name:
+          - git
+          - java-17-amazon-corretto-headless
+          - docker
+        state: present
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create Jenkins user
+      user:
+        name: "{{ jenkins_user }}"
+        groups: docker
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Authorize Jenkins master SSH key
+      authorized_key:
+        user: "{{ jenkins_user }}"
+        key: "{{ lookup('file', './id_rsa.pub') }}"

@@ -13,7 +13,7 @@ pipeline {
                     echo "Building branch: ${env.BRANCH_NAME}"
                     sh '''
                         echo "$DOCKERHUB_PSW" | docker login -u "$DOCKERHUB_USR" --password-stdin
-                        docker build -t $DOCKERHUB_USR/demo-app:${BUILD_NUMBER} .
+                        docker build -t $DOCKERHUB_USR/demo-app:${BUILD_NUMBER} ./app
                         docker push $DOCKERHUB_USR/demo-app:${BUILD_NUMBER}
                     '''
                 }
