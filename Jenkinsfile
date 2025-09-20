@@ -10,12 +10,12 @@ pipeline {
             agent { label 'local-agent' }   
             steps {
                 script {
-                    sh '''
+                    sh """
                         echo "Building branch: ${env.BRANCH_NAME}"
                         echo "$DOCKERHUB_PSW" | docker login -u "$DOCKERHUB_USR" --password-stdin
                         docker build -t $DOCKERHUB_USR/demo-app:${BUILD_NUMBER} .
                         docker push $DOCKERHUB_USR/demo-app:${BUILD_NUMBER}
-                    '''
+                    """
                 }
             }
         }
