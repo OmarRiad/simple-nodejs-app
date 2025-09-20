@@ -32,7 +32,7 @@ pipeline {
         }
 
         stage('Deploy (EC2 Agent)') {
-            agent { label 'ec2-agent' }   
+            agent { label 'ec2-node' }   
             steps {
                 script {
                     sh '''
